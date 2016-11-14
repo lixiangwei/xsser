@@ -2,10 +2,10 @@ function check(eventName, eventID) {
 	var isClick = (eventName == "onclick");
 	
 	function scan(element) {
-		//跳过已经扫描过得元素
+		//跳过已经扫描过得元素,扫描过得就不用重复扫描了，减少运算（例如鼠标移动事件）
 		var flag = el["_k"];
 		if(!flag) {
-			flag = el["_k"] = ++eleID;
+			flag = el["_k"] = ++elementID;
 		}
 		
 		var hash = (flag << 8) | eventID;
@@ -30,17 +30,31 @@ function check(eventName, eventID) {
 			}
 		}
 		
+		//a标签很多人喜欢弄个<a href="javascript:">
+		if(isClick && element.tagName === "A" && element.protocol === "javascript:") {
+			var code = el.href.substr(11);
+			//检测到xss代码
+			if(code && /xss/.test(code)) {
+				//改掉这种写法
+				el.href = "javascript:void(0)";
+				console.log("检测到可疑代码");
+			}
+		}
+		
 		//扫描父元素
-		scan(element.parentNode);
+		if(element.nodeType !== "9") {
+			scan(element.parentNode);
+		}
 	};
 	
-	//事件捕获过程添加处理程序
+	//一般事件处理程序都是添加在冒泡阶段，所以可以在捕获阶段添加扫描处理程序
 	document.addEventListener(eventName.substr(2), function(e) {
+		//target指向的是真正触发事件的元素
 		scan(e.target);
 	}, true);
 }
 
-//遍历所有事件去检测
+//遍历所有属性去检查事件监听
 var i = 0;
 for(var _attr in document) {
 	if(/^on./.test(_attr)) {
