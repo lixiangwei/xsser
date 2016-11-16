@@ -7,7 +7,6 @@ function check(eventName, eventID) {
 		if(!flag) {
 			flag = el["_k"] = ++elementID;
 		}
-		
 		var hash = (flag << 8) | eventID;
 		if(hash in map) {
 			return;
@@ -54,10 +53,23 @@ function check(eventName, eventID) {
 	}, true);
 }
 
-//遍历所有属性去检查事件监听
+//遍历所有属性去检查内联事件脚本
 var i = 0;
 for(var _attr in document) {
 	if(/^on./.test(_attr)) {
 		check(_attr, i++);
 	}
 }
+
+//MutationObserver 取代了 Mutation Events，当DOM结构被改变时触发 https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver
+//用来检测动态加载进来的脚本
+var observer = new MutationObserver(function(mutations) {
+	mutations.forEach(function(mutation) {
+		console.log(mutation.type);
+	});
+});
+
+observer.observer(document, {
+	childList: true,
+	subtree: true
+});
