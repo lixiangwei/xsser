@@ -19,11 +19,21 @@
  * 　　　　　┗┻┛　┗┻┛
  *
  */
-(function() {
-	function iframeHook(window) {
+function xss(callback) {
+	var inlineHandleRE = /xss/,
+		aTagRE = /xss/,
+		scriptSrcRE = /xss/,
+		scriptHtmlRE = /xss/,
+		setAttributeRE = /xss/,
+		callback;
+		
+	callback = callback || function() {
+		console.log("发现可疑行为：");
+	};
+	
+	function hook(window) {
 		//扫描内联事件代码
 		function check(eventName, eventID) {
-			var isClick = (eventName == "onclick");
 			
 			function scan(element) {
 				//跳过已经扫描过得元素,扫描过得就不用重复扫描了，减少运算（例如鼠标移动事件）
@@ -46,20 +56,20 @@
 				var code;
 				if(element[eventName]) {
 					code = element[eventName];
-					if(code && /xss/.test(code)) {
+					if(code && inlineHandleRE.test(code)) {
 						element[eventName] = null;
-						console.log("检测到可疑代码");
+						callback();
 					}
 				}
 				
 				//a标签很多人喜欢弄个<a href="javascript:">
-				if(isClick && element.tagName === "A" && element.protocol === "javascript:") {
+				if((eventName == "onclick") && element.tagName === "A" && element.protocol === "javascript:") {
 					var code = el.href.substr(11);
 					//检测到xss代码
-					if(code && /xss/.test(code)) {
+					if(code && aTagRE.test(code)) {
 						//改掉这种写法
 						el.href = "javascript:void(0)";
-						console.log("检测到可疑代码");
+						callback();
 					}
 				}
 				
@@ -74,7 +84,7 @@
 				//target指向的是真正触发事件的元素
 				scan(e.target);
 			}, true);
-		}
+		};
 		//然后遍历所有属性去检查内联事件脚本
 		var i = 0;
 		for(var _attr in document) {
@@ -87,12 +97,11 @@
 		//用来检测静态script标签有没有问题
 		var observer = new MutationObserver(function(mutations) {
 			mutations.forEach(function(mutation) {
-				console.log(mutation);
 				//检查插进来script
 				var node = mutation.addedNodes[0];
-				if(/xss/.test(node.src) || /xss/.test(node.innerHTML)) {
+				if(scriptSrcRE.test(node.src) || scriptHtmlRE.test(node.innerHTML)) {
 					node.parentNode.removeChild(node);
-					console.log('检测到可疑代码:', node);
+					callback();
 				}
 			});
 		});
@@ -112,33 +121,33 @@
 			var element = nativeFn.apply(this, arguments);
 			if(element.tagName == "SCRIPT") {
 				element.__defineSetter__("src", function(url) {
-					console.log("正在设置URL", url);
+					callback();
 				});
 			}
 			return element;
-		}
+		};
 
-		nativeFn = Element.prototype.setAttribute;
+		var nativeFn2 = Element.prototype.setAttribute;
 		Element.prototype.setAttribute = function(name, value) {
 			if(this.tagName == "SCRIPT" && /^src$/i.test(name)) {
-				if(/xss/.test(value)) {
-					if(confirm("检测到可疑代码，是否拦截")) {
-						return false;
-					}
+				if(setAttributeRE.test(value)) {
+					callback();
+					//if(confirm("检测到可疑代码，是否拦截")) {
+						//return false;
+					//}
 				}
 			}
-			nativeFn.apply(this, arguments);
-		}
+			nativeFn2.apply(this, arguments);
+		};
 
 		//防止通过iframe来绕过监控
 		window.document.addEventListener('DOMNodeInserted', function(e) {
 			var element = e.target;
-
 			// 给框架里环境也装个钩子
 			if (element.tagName == 'IFRAME') {
-				iframeHook(element.contentWindow);
+				hook(element.contentWindow);
 			}
 		}, true);
 	};
-	iframeHook(window);
-})();
+	hook(window);
+};
