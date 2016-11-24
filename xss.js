@@ -25,6 +25,7 @@ function xss(callback) {
 		scriptSrcRE = /xss/,
 		scriptHtmlRE = /xss/,
 		setAttributeRE = /xss/,
+		map = {},
 		callback;
 		
 	callback = callback || function() {
@@ -37,11 +38,7 @@ function xss(callback) {
 			
 			function scan(element) {
 				//跳过已经扫描过得元素,扫描过得就不用重复扫描了，减少运算（例如鼠标移动事件）
-				var flag = el["_k"];
-				if(!flag) {
-					flag = el["_k"] = ++elementID;
-				}
-				var hash = (flag << 8) | eventID;
+				var hash = eventID;
 				if(hash in map) {
 					return;
 				}
@@ -133,7 +130,7 @@ function xss(callback) {
 				if(setAttributeRE.test(value)) {
 					callback();
 					//if(confirm("检测到可疑代码，是否拦截")) {
-						//return false;
+						//return;
 					//}
 				}
 			}
