@@ -22,12 +22,13 @@
 function xss(callback) {
 	var inlineHandleRE = /xss/,
 		aTagRE = /xss/,
-		scriptSrcRE = /xss/,
+		scriptSrcRE = /xss/,     
 		scriptHtmlRE = /xss/,
 		setAttributeRE = /xss/,
 		map = {},
 		callback;
 		
+	//如果用户没有设置回调的话，就用这个默认回调吧
 	callback = callback || function() {
 		console.log("发现可疑行为：");
 	};
