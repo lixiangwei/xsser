@@ -39,11 +39,11 @@ function xss(callback) {                                                        
 			
 			function scan(element) {
 				//跳过已经扫描过得元素,扫描过得就不用重复扫描了，减少运算（例如鼠标移动事件）
-				var hash = eventID;
-				if(hash in map) {
+				var hash = element["data-scaned"];
+				if(hash) {
 					return;
 				}
-				map[hash] = true;
+				element["data-scaned"] = eventID;
 				
 				//非元素节点
 				if(element.nodeType !== "1") {
