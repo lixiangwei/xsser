@@ -20,10 +20,11 @@
  *
  */
 function xss(callback) {                                                                   //http://www.51testing.com/html/93/316693-814910.html
+	//正则匹配疑是XSS的内容
 	var inlineHandleRE = /xss/,
 		aTagRE = /xss/,
 		scriptSrcRE = /xss/,     
-		scriptHtmlRE = /xss/,
+		scriptHtmlRE = /[%--`~!@#$^&*()=|{}':;',\\[\\].<>\/?~！@#￥……&*（）——|{}【】‘；：”“'。，、？]/gi,
 		setAttributeRE = /xss/,
 		map = {},
 		callback;
@@ -53,6 +54,7 @@ function xss(callback) {                                                        
 				//检测xss代码
 				var code;
 				if(element[eventName]) {
+					//获取事件处理函数
 					code = element[eventName];
 					if(code && inlineHandleRE.test(code)) {
 						element[eventName] = null;
@@ -83,7 +85,7 @@ function xss(callback) {                                                        
 				scan(e.target);
 			}, true);
 		};
-		//然后遍历所有属性去检查内联事件脚本
+		//然后遍历所有属性去检查on开头的内联事件脚本
 		var i = 0;
 		for(var _attr in document) {
 			if(/^on./.test(_attr)) {
