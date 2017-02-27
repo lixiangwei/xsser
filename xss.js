@@ -19,13 +19,11 @@
  * 　　　　　┗┻┛　┗┻┛
  *
  */
-function xss(callback) {                                                                   //http://www.51testing.com/html/93/316693-814910.html
+var xss = function (callback) {
 	//正则匹配疑是XSS的内容
-	var inlineHandleRE = /xss/,
-		aTagRE = /xss/,
-		scriptSrcRE = /xss/,     
-		scriptHtmlRE = /[%--`~!@#$^&*()=|{}':;',\\[\\].<>\/?~！@#￥……&*（）——|{}【】‘；：”“'。，、？]/gi,
-		setAttributeRE = /xss/,
+	var inlineHandleRE = scriptHtmlRE = setAttributeRE = /%|-|`|~|!|@|#|\$|\^|&|\*|\(|\)|=|\||\{|\}|'|:|;|,|\[|\]|\.|<|>|\?|\+|~|\{|\}|！|￥|……|（|）|—/gi,
+		aTagRE = /your xssRE/,
+		scriptSrcRE = /your xssRE/,
 		map = {},
 		callback;
 		
