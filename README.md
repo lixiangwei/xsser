@@ -7,6 +7,6 @@ xss扫描检测（xss scan）
 
 不依赖其他库（no dependence）
 
-HTML5有推出对应的CSP: http://www.w3.org/TR/CSP11/  
+HTML5有推出XSS解决方案：CSP http://www.w3.org/TR/CSP11/  
 
 启发自：http://fex.baidu.com/blog/2014/06/xss-frontend-firewall-1/
