@@ -1,89 +1,98 @@
 /**
  *
- * ¡¡¡¡¡¡©³©·¡¡¡¡¡¡©³©·
- * ¡¡¡¡©³©¿©ß©¥©¥©¥©¿©ß©·
- * ¡¡¡¡©§¡¡¡¡¡¡¡¡¡¡¡¡¡¡©§
- * ¡¡¡¡©§¡¡¡¡¡¡©¥¡¡¡¡¡¡©§
- * ¡¡¡¡©§¡¡©×©¿¡¡©»©×¡¡©§
- * ¡¡¡¡©§¡¡¡¡¡¡¡¡¡¡¡¡¡¡©§
- * ¡¡¡¡©§¡¡¡¡¡¡©ß¡¡¡¡¡¡©§
- * ¡¡¡¡©§¡¡¡¡¡¡¡¡¡¡¡¡¡¡©§
- * ¡¡¡¡©»©¥©·¡¡¡¡¡¡©³©¥©¿Code is far away from bug with the animal protecting
- * ¡¡¡¡¡¡¡¡©§¡¡¡¡¡¡©§    ÉñÊŞ±£ÓÓ,´úÂëÎŞbug
- * ¡¡¡¡¡¡¡¡©§¡¡¡¡¡¡©§
- * ¡¡¡¡¡¡¡¡©§¡¡¡¡¡¡©»©¥©¥©¥©·
- * ¡¡¡¡¡¡¡¡©§¡¡¡¡¡¡¡¡¡¡ ©Ç©·
- * ¡¡¡¡¡¡¡¡©§¡¡¡¡¡¡¡¡ ©³©¿
- * ¡¡¡¡¡¡¡¡©»©·©·©³©¥©×©·©³©¿
- * ¡¡¡¡¡¡¡¡¡¡©§©Ï©Ï¡¡©§©Ï©Ï
- * ¡¡¡¡¡¡¡¡¡¡©»©ß©¿¡¡©»©ß©¿
+ * ã€€ã€€ã€€â”â”“ã€€ã€€ã€€â”â”“
+ * ã€€ã€€â”â”›â”»â”â”â”â”›â”»â”“
+ * ã€€ã€€â”ƒã€€ã€€ã€€ã€€ã€€ã€€ã€€â”ƒ
+ * ã€€ã€€â”ƒã€€ã€€ã€€â”ã€€ã€€ã€€â”ƒ
+ * ã€€ã€€â”ƒã€€â”³â”›ã€€â”—â”³ã€€â”ƒ
+ * ã€€ã€€â”ƒã€€ã€€ã€€ã€€ã€€ã€€ã€€â”ƒ
+ * ã€€ã€€â”ƒã€€ã€€ã€€â”»ã€€ã€€ã€€â”ƒ
+ * ã€€ã€€â”ƒã€€ã€€ã€€ã€€ã€€ã€€ã€€â”ƒ
+ * ã€€ã€€â”—â”â”“ã€€ã€€ã€€â”â”â”›Code is far away from bug with the animal protecting
+ * ã€€ã€€ã€€ã€€â”ƒã€€ã€€ã€€â”ƒ    ç¥å…½ä¿ä½‘,ä»£ç æ— bug
+ * ã€€ã€€ã€€ã€€â”ƒã€€ã€€ã€€â”ƒ
+ * ã€€ã€€ã€€ã€€â”ƒã€€ã€€ã€€â”—â”â”â”â”“
+ * ã€€ã€€ã€€ã€€â”ƒã€€ã€€ã€€ã€€ã€€ â”£â”“
+ * ã€€ã€€ã€€ã€€â”ƒã€€ã€€ã€€ã€€ â”â”›
+ * ã€€ã€€ã€€ã€€â”—â”“â”“â”â”â”³â”“â”â”›
+ * ã€€ã€€ã€€ã€€ã€€â”ƒâ”«â”«ã€€â”ƒâ”«â”«
+ * ã€€ã€€ã€€ã€€ã€€â”—â”»â”›ã€€â”—â”»â”›
  *
  */
+ 
+ //åœ¨é¡µé¢ä¸Šæ–°æ·»åŠ å…ƒç´ æé¬¼
+ //åœ¨é¡µé¢åŸæœ‰å…ƒç´ ä¸Šæé¬¼
+ 
 var xss = function (callback) {
-	//ÕıÔòÆ¥ÅäÒÉÊÇXSSµÄÄÚÈİ
-	var inlineHandleRE = scriptHtmlRE = setAttributeRE = /%|-|`|~|!|@|#|\$|\^|&|\*|\(|\)|=|\||\{|\}|'|:|;|,|\[|\]|\.|<|>|\?|\+|~|\{|\}|£¡|£¤|¡­¡­|£¨|£©|¡ª/gi,
+	//æ­£åˆ™åŒ¹é…ç–‘æ˜¯XSSçš„å†…å®¹
+	var inlineHandleRE = scriptHtmlRE = setAttributeRE = /%|-|`|~|!|@|#|\$|\^|&|\*|\(|\)|=|\||\{|\}|'|:|;|,|\[|\]|\.|<|>|\?|\+|~|\{|\}|ï¼|ï¿¥|â€¦â€¦|ï¼ˆ|ï¼‰|â€”/gi,
 		aTagRE = /your xssRE/,
-		scriptSrcRE = /your xssRE/,
-		map = {},
-		callback;
+		//å¦‚æœæ·»åŠ åˆ°é¡µé¢çš„æ˜¯å¤–é“¾è„šæœ¬åˆ¤æ–­æ¥æºæ˜¯ä¸æ˜¯åˆæ³•çš„ï¼›
+		scriptSrcRE = /http/gi,
+		//è¿”å›çš„æ•°æ®
+		data = {
+			action: "",
+			value: "",
+			location: location.href,
+			ua: navigator.userAgent
+		};
 		
-	//Èç¹ûÓÃ»§Ã»ÓĞÉèÖÃ»Øµ÷µÄ»°£¬¾ÍÓÃÕâ¸öÄ¬ÈÏ»Øµ÷°É
+	//å¦‚æœç”¨æˆ·æ²¡æœ‰è®¾ç½®å›è°ƒçš„è¯ï¼Œå°±ç”¨è¿™ä¸ªé»˜è®¤å›è°ƒ
 	callback = callback || function() {
-		console.log("·¢ÏÖ¿ÉÒÉĞĞÎª£º");
+		console.warn("å‘ç°å¯ç–‘è¡Œä¸ºï¼š", data);
 	};
 	
 	function hook(window) {
-		//É¨ÃèÄÚÁªÊÂ¼ş´úÂë
+		//æ‰«æå†…è”onäº‹ä»¶ä»£ç 
 		function check(eventName, eventID) {
 			
 			function scan(element) {
-				//Ìø¹ıÒÑ¾­É¨Ãè¹ıµÃÔªËØ,É¨Ãè¹ıµÃ¾Í²»ÓÃÖØ¸´É¨ÃèÁË£¬¼õÉÙÔËËã£¨ÀıÈçÊó±êÒÆ¶¯ÊÂ¼ş£©
+				//è·³è¿‡å·²ç»æ‰«æè¿‡å¾—å…ƒç´ ,æ‰«æè¿‡å¾—å°±ä¸ç”¨é‡å¤æ‰«æäº†ï¼Œå‡å°‘è¿ç®—ï¼ˆä¾‹å¦‚é¼ æ ‡ç§»åŠ¨äº‹ä»¶ï¼‰
 				var hash = element["data-scaned"];
 				if(hash) {
 					return;
 				}
 				element["data-scaned"] = eventID;
 				
-				//·ÇÔªËØ½Úµã
+				//éå…ƒç´ èŠ‚ç‚¹
 				if(element.nodeType !== "1") {
 					return;
 				}
 				
-				//¼ì²âxss´úÂë
 				var code;
 				if(element[eventName]) {
-					//»ñÈ¡ÊÂ¼ş´¦Àíº¯Êı
+					//è·å–äº‹ä»¶å¤„ç†å‡½æ•°è¿›è¡Œæ£€æµ‹ï¼Œæœ‰é—®é¢˜è®¾ä¸ºnull
 					code = element[eventName];
 					if(code && inlineHandleRE.test(code)) {
 						element[eventName] = null;
-						callback();
+						callback(data);
 					}
 				}
 				
-				//a±êÇ©ºÜ¶àÈËÏ²»¶Åª¸ö<a href="javascript:">
+				//aæ ‡ç­¾å¾ˆå¤šäººå–œæ¬¢å¼„ä¸ª<a href="javascript:">
 				if((eventName == "onclick") && element.tagName === "A" && element.protocol === "javascript:") {
 					var code = el.href.substr(11);
-					//¼ì²âµ½xss´úÂë
+					//æ£€æµ‹åˆ°xssä»£ç 
 					if(code && aTagRE.test(code)) {
-						//¸ÄµôÕâÖÖĞ´·¨
+						//æ”¹æ‰è¿™ç§å†™æ³•
 						el.href = "javascript:void(0)";
-						callback();
+						callback(data);
 					}
 				}
 				
-				//É¨Ãè¸¸ÔªËØ
+				//æ‰«æçˆ¶å…ƒç´ 
 				if(element.nodeType !== "9") {
 					scan(element.parentNode);
 				}
 			};
 			
-			//Ò»°ãÊÂ¼ş´¦Àí³ÌĞò¶¼ÊÇÌí¼ÓÔÚÃ°Åİ½×¶Î£¬ËùÒÔ¿ÉÒÔÔÚ²¶»ñ½×¶ÎÌí¼ÓÉ¨Ãè´¦Àí³ÌĞò
+			//ä¸€èˆ¬äº‹ä»¶å¤„ç†ç¨‹åºéƒ½æ˜¯æ·»åŠ åœ¨å†’æ³¡é˜¶æ®µï¼Œæ‰€ä»¥å¯ä»¥åœ¨æ•è·é˜¶æ®µæ·»åŠ æ‰«æå¤„ç†ç¨‹åº
 			document.addEventListener(eventName.substr(2), function(e) {
-				//targetÖ¸ÏòµÄÊÇÕæÕı´¥·¢ÊÂ¼şµÄÔªËØ
+				//targetæŒ‡å‘çš„æ˜¯çœŸæ­£è§¦å‘äº‹ä»¶çš„å…ƒç´ 
 				scan(e.target);
 			}, true);
 		};
-		//È»ºó±éÀúËùÓĞÊôĞÔÈ¥¼ì²éon¿ªÍ·µÄÄÚÁªÊÂ¼ş½Å±¾
+		//ç„¶åéå†æ‰€æœ‰å±æ€§å»æ£€æŸ¥onå¼€å¤´çš„å†…è”äº‹ä»¶è„šæœ¬
 		var i = 0;
 		for(var _attr in document) {
 			if(/^on./.test(_attr)) {
@@ -91,61 +100,143 @@ var xss = function (callback) {
 			}
 		}
 		
-		//MutationObserver È¡´úÁË Mutation Events£¬µ±DOM½á¹¹±»¸Ä±äÊ±´¥·¢ https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver
-		//ÓÃÀ´¼ì²â¾²Ì¬script±êÇ©ÓĞÃ»ÓĞÎÊÌâ
+		//MutationObserver å–ä»£äº† Mutation Eventsï¼Œå½“DOMç»“æ„å±æ€§è¢«æ”¹å˜æ—¶è§¦å‘ https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver
+		//ä¸»è¦ç”¨æ¥æ£€æµ‹æ·»åŠ è¿›æ¥çš„scriptæ ‡ç­¾æœ‰æ²¡æœ‰é—®é¢˜ï¼Œä½†é—®é¢˜æ˜¯åœ¨è„šæœ¬æ·»åŠ æ“ä½œä¹‹åæ‰è§¦å‘ï¼Œè„šæœ¬éƒ½æ‰§è¡Œäº†
+		var config = {
+			childList: true,
+			subtree: true,
+			//ä¹Ÿå¯ä»¥ç›‘è§†attributeæœ‰æ²¡æœ‰è¢«æ”¹å˜ï¼Œä½†æ˜¯é€šè¿‡script.src è®¾ç½®çš„æ£€æµ‹ä¸åˆ°ï¼ŒgetAttributeæ·»åŠ çš„æ‰è¡Œ
+			//attributes: true,
+			//attributeFilter: ["src"]
+		}
 		var observer = new MutationObserver(function(mutations) {
+			return false;
 			mutations.forEach(function(mutation) {
-				//¼ì²é²å½øÀ´script
-				var node = mutation.addedNodes[0];
-				if(scriptSrcRE.test(node.src) || scriptHtmlRE.test(node.innerHTML)) {
-					node.parentNode.removeChild(node);
-					callback();
+				//æ£€æŸ¥æ’è¿›æ¥scriptï¼Œæ³¨æ„åˆ é™¤ä¹Ÿä¼šè§¦å‘çš„ï¼ŒåŠ ä¸ªåˆ¤æ–­
+				if(mutation.addedNodes[0]) {
+					var node = mutation.addedNodes[0];
+					//å¦‚æœæ˜¯å¤–é“¾è„šæœ¬åˆ¤æ–­æ¥æºæ˜¯ä¸æ˜¯åˆæ³•çš„ï¼›å¦‚æœæ˜¯å†…è”è„šæœ¬å°±åˆ¤æ–­å†…å®¹æ˜¯å¦åˆæ³•
+					if(scriptSrcRE.test(node.getAttribute("src"))) {
+						data.action = "æ–°æ·»åŠ çš„å¤–é“¾è„šæœ¬ä¸åˆæ³•";
+						data.value = node.src;
+						callback(data);
+						//ä¸åˆæ³•å°±ç§»é™¤äº†
+						node.parentNode.removeChild(node);
+					}	
+					if(scriptHtmlRE.test(node.innerHTML)) {
+						data.action = "æ–°æ·»åŠ çš„å†…è”è„šæœ¬ä¸åˆæ³•";
+						data.value = node.innerHTML;
+						callback(data);
+						//ä¸åˆæ³•å°±ç§»é™¤äº†
+						node.parentNode.removeChild(node);
+					}	
 				}
 			});
 		});
-		observer.observe(document, {
-			childList: true,
-			subtree: true
-		});
+		observer.observe(document, config);
+		//observe.disconnect();  å–æ¶ˆè§‚å¯Ÿ
 
-		//²»ÈÃ±ğÈË¸ÄĞ´ÕâĞ©·½·¨
+		//ä¸è®©åˆ«äººæ”¹å†™è¿™äº›æ–¹æ³•
 		Object.defineProperty(Function.prototype, "apply", { value: Function.prototype.apply, writable: false, configurable: false, enumerable: true });
 		Object.defineProperty(Function.prototype, "call", { value: Function.prototype.call, writable: false, configurable: false, enumerable: true });
 		
-		//¼ì²âÄÇĞ©¶¯Ì¬Éú³ÉµÄ½Å±¾
-		var nativeFn = Document.prototype.createElement;
-		Document.prototype.createElement = function() {
-			//Ë¼Â·ÏÈ±£´æÔ­À´µÄº¯Êı£¬È»ºóÔÙÌí¼Ó½øĞĞ¼ì²é
-			var element = nativeFn.apply(this, arguments);
-			if(element.tagName == "SCRIPT") {
-				element.__defineSetter__("src", function(url) {
-					callback();
-				});
-			}
-			return element;
+		//è®¾ç½®å…ƒç´ å±æ€§æ—¶ä¼šè§¦å‘
+		/*var nativeFn3 = Element.prototype.__defineSetter__;
+		Element.prototype.__defineSetter__ = function() {
+			data.action = "__defineSetter__";
+			data.value = arguments;
+			callback(data);
+			nativeFn3.apply(this, arguments);
+		};*/
+		
+		//é‡ç½®è¿”å›å•ä¸ªå…ƒç´ çš„æ–¹æ³•
+		var elementFunName = ["createElement", "getElementById"];
+		for (var i = elementFunName.length - 1; i >= 0; i--) {
+			hookNativeElement(elementFunName[i]);
+		}
+		function hookNativeElement(methodName) {
+			var nativeCode = "_" + methodName;
+			//ä¿å­˜åŸç”Ÿå‡½æ•°
+			nativeCode = Document.prototype[methodName];
+			Document.prototype[methodName] = function() {
+				var element = nativeCode.apply(this, arguments);
+				if(element.tagName == "SCRIPT") {
+					defineSetter(element, methodName);
+				}
+				return element;
+			};
+		};
+		
+		//é‡ç½®è¿”å›å¤šä¸ªå…ƒç´ çš„æ–¹æ³•
+		var elementsFunName = ["getElementsByTagName", "getElementsByClassName"];
+		for (var i = elementsFunName.length - 1; i >= 0; i--) {
+			hookNativeElements(elementsFunName[i]);
+		}
+		function hookNativeElements(methodName) {
+			var nativeCode = "_" + methodName;
+			nativeCode = Document.prototype[methodName];
+			Document.prototype[methodName] = function() {
+				var elementList = nativeCode.apply(this, arguments);
+				var i,len = elementList.length;
+				for (var i = elementList.length - 1; i >= 0; i--) {
+					if(elementList[i].tagName == "SCRIPT") {
+						defineSetter(elementList[i], methodName);
+					}
+				}
+				return elementList;
+			};
+		};
+
+		//è®¾ç½®srcå±æ€§æ—¶è§¦å‘
+		function defineSetter(element, methodName) {
+			element.__defineSetter__("src", function(value) {
+				data.action = methodName;
+				data.value = value;
+				callback(data);
+			});
 		};
 
 		var nativeFn2 = Element.prototype.setAttribute;
 		Element.prototype.setAttribute = function(name, value) {
 			if(this.tagName == "SCRIPT" && /^src$/i.test(name)) {
 				if(setAttributeRE.test(value)) {
-					callback();
-					//if(confirm("¼ì²âµ½¿ÉÒÉ´úÂë£¬ÊÇ·ñÀ¹½Ø")) {
+					data.action = "ä½¿ç”¨setAttributeè®¾ç½®scriptçš„src";
+					data.value = value;
+					callback(data);
+					//if(confirm("æ£€æµ‹åˆ°å¯ç–‘ä»£ç ï¼Œæ˜¯å¦æ‹¦æˆª")) {
 						//return;
 					//}
 				}
 			}
 			nativeFn2.apply(this, arguments);
 		};
+		
+		//æ£€æµ‹èƒ½æ‰§è¡Œå­—ç¬¦ä¸²çš„å‡½æ•°ï¼Œä¸»è¦è¿™å‡ ä¸ª eval setTimeout setInterval
+		//evalæ”¹äº†ä¼šå‡ºé—®é¢˜ï¼Œevalå¹¶ä¸æ˜¯çœŸæ­£æ„ä¹‰çš„å‡½æ•°
+		var funName = ["eval", "setTimeout", "setInterval"];
+		for (var i = funName.length - 1; i >= 0; i--) {
+			hookNative(funName[i]);
+		}
+		function hookNative(methodName) {
+			var nativeCode = "_" + methodName;
+			nativeCode = window[methodName];
+			window[methodName] = function() {
+				data.action = methodName;
+				data.value = arguments;
+				callback(data);
+				return nativeCode.apply(this, arguments);
+			};
+		}
 
-		//·ÀÖ¹Í¨¹ıiframeÀ´ÈÆ¹ı¼à¿Ø
+		//é˜²æ­¢é€šè¿‡iframeæ¥ç»•è¿‡ç›‘æ§
 		window.document.addEventListener('DOMNodeInserted', function(e) {
 			var element = e.target;
-			// ¸ø¿ò¼ÜÀï»·¾³Ò²×°¸ö¹³×Ó
+			// ç»™æ¡†æ¶é‡Œç¯å¢ƒä¹Ÿè£…ä¸ªé’©å­
 			if (element.tagName == 'IFRAME') {
 				hook(element.contentWindow);
 			}
 		}, true);
 	};
+	//å½“å‰é¡µé¢
 	hook(window);
 };
