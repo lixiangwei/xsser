@@ -35,7 +35,7 @@ var xss = function (callback) {
 			value: "",
 			location: location.href,
 			ua: navigator.userAgent,
-			//重置返回单个元素的方法
+			//重置返回单个元素的方法,添加钩子程序
 			elementFunName: ["createElement", "getElementById"],
 			//重置返回多个元素的方法
 			elementsFunName: ["getElementsByTagName", "getElementsByClassName"]
