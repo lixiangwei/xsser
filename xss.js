@@ -34,7 +34,11 @@ var xss = function (callback) {
 			action: "",
 			value: "",
 			location: location.href,
-			ua: navigator.userAgent
+			ua: navigator.userAgent,
+			//重置返回单个元素的方法
+			elementFunName: ["createElement", "getElementById"],
+			//重置返回多个元素的方法
+			elementsFunName: ["getElementsByTagName", "getElementsByClassName"]
 		};
 		
 	//如果用户没有设置回调的话，就用这个默认回调
@@ -150,9 +154,8 @@ var xss = function (callback) {
 		};*/
 		
 		//重置返回单个元素的方法
-		var elementFunName = ["createElement", "getElementById"];
-		for (var i = elementFunName.length - 1; i >= 0; i--) {
-			hookNativeElement(elementFunName[i]);
+		for (var i = data.elementFunName.length - 1; i >= 0; i--) {
+			hookNativeElement(data.elementFunName[i]);
 		}
 		function hookNativeElement(methodName) {
 			var nativeCode = "_" + methodName;
@@ -168,9 +171,8 @@ var xss = function (callback) {
 		};
 		
 		//重置返回多个元素的方法
-		var elementsFunName = ["getElementsByTagName", "getElementsByClassName"];
-		for (var i = elementsFunName.length - 1; i >= 0; i--) {
-			hookNativeElements(elementsFunName[i]);
+		for (var i = data.elementsFunName.length - 1; i >= 0; i--) {
+			hookNativeElements(data.elementsFunName[i]);
 		}
 		function hookNativeElements(methodName) {
 			var nativeCode = "_" + methodName;
