@@ -22,9 +22,8 @@ var xss = function (callback) {
 	};
 	
 	function hook(window) {
-		//扫描内联on事件代码
+		//用于扫描内联on事件代码
 		function check(eventName, eventID) {
-			
 			function scan(element) {
 				//跳过已经扫描过得元素,扫描过得就不用重复扫描了，减少运算（例如鼠标移动事件）
 				var hash = element["data-scaned"];
@@ -71,7 +70,7 @@ var xss = function (callback) {
 				scan(e.target);
 			}, true);
 		};
-		//然后遍历所有属性去检查on开头的内联事件脚本
+		//遍历所有属性去检查on开头的内联事件脚本
 		var i = 0;
 		for(var _attr in document) {
 			if(/^on./.test(_attr)) {
@@ -84,7 +83,7 @@ var xss = function (callback) {
 		var config = {
 			childList: true,
 			subtree: true,
-			//也可以监视attribute有没有被改变，但是通过script.src 设置的检测不到，getAttribute添加的才行
+			//也可以监视attribute有没有被改变，但是通过script.src直接设置的检测不到，getAttribute添加的才行
 			//attributes: true,
 			//attributeFilter: ["src"]
 		}
@@ -116,17 +115,19 @@ var xss = function (callback) {
 		//observe.disconnect();  取消观察
 
 		//不让别人改写这些方法
-		Object.defineProperty(Function.prototype, "apply", { value: Function.prototype.apply, writable: false, configurable: false, enumerable: true });
-		Object.defineProperty(Function.prototype, "call", { value: Function.prototype.call, writable: false, configurable: false, enumerable: true });
+		Object.defineProperties(Function.prototype, {
+			"apply": { value: Function.prototype.apply, writable: false, configurable: false, enumerable: true },
+			"call": { value: Function.prototype.call, writable: false, configurable: false, enumerable: true }
+		});
 		
 		//设置元素属性时会触发
-		/*var nativeFn3 = Element.prototype.__defineSetter__;
+		var nativeFn3 = Element.prototype.__defineSetter__;
 		Element.prototype.__defineSetter__ = function() {
 			data.action = "__defineSetter__";
 			data.value = arguments;
 			callback(data);
 			nativeFn3.apply(this, arguments);
-		};*/
+		};
 		
 		//重置返回单个元素的方法
 		for (var i = data.elementFunName.length - 1; i >= 0; i--) {
