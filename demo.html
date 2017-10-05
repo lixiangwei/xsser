@@ -17,11 +17,11 @@
 	<script src="xss.js"></script>
 	<script>
 	window.addEventListener("load", function() {
-		xss(function(data) {
-			console.log('可疑行为：', data);
+		xss(function() {
+			console.log('可疑行为：', arguments);
 		});
 
-		var a = document.createElement("script");a.src="baidu.com"
+		// var a = document.createElement("script");a.src="baidu.com"
 		
 		// document.getElementsByTagName("script")[0].setAttribute("src","baidu.com")
 		

@@ -4,21 +4,14 @@ var xss = function (callback) {
 		aTagRE = /your xssRE/,
 		//如果添加到页面的是外链脚本判断来源是不是合法的；
 		scriptSrcRE = /http/gi,
-		//返回的数据
-		data = {
-			action: "",
-			value: "",
-			location: location.href,
-			ua: navigator.userAgent,
-			//重置返回单个元素的方法,添加钩子程序
-			elementFunName: ["createElement", "getElementById"],
-			//重置返回多个元素的方法
-			elementsFunName: ["getElementsByTagName", "getElementsByClassName"]
-		};
+		//想要监控的，返回单个元素的方法,添加钩子程序
+		elementFunName = ["createElement", "getElementById"],
+		//监控返回多个元素的方法
+		elementsFunName = ["getElementsByTagName", "getElementsByClassName"]
 		
 	//如果用户没有设置回调的话，就用这个默认回调
 	callback = callback || function() {
-		console.warn("发现可疑行为：", data);
+		console.warn("发现可疑行为：", arguments);
 	};
 	
 	function hook(window) {
@@ -43,7 +36,7 @@ var xss = function (callback) {
 					code = element[eventName];
 					if(code && inlineHandleRE.test(code)) {
 						element[eventName] = null;
-						callback(data);
+						callback(eventName, element[eventName], location.href, navigator.userAgent);
 					}
 				}
 				
@@ -54,7 +47,7 @@ var xss = function (callback) {
 					if(code && aTagRE.test(code)) {
 						//改掉这种写法
 						el.href = "javascript:void(0)";
-						callback(data);
+						callback(eventName, element[eventName], location.href, navigator.userAgent);
 					}
 				}
 				
@@ -95,16 +88,12 @@ var xss = function (callback) {
 					var node = mutation.addedNodes[0];
 					//如果是外链脚本判断来源是不是合法的；如果是内联脚本就判断内容是否合法
 					if(scriptSrcRE.test(node.getAttribute("src"))) {
-						data.action = "新添加的外链脚本不合法";
-						data.value = node.src;
-						callback(data);
+						callback("新添加的外链脚本不合法", node.src, location.href, navigator.userAgent);
 						//不合法就移除了
 						node.parentNode.removeChild(node);
 					}	
 					if(scriptHtmlRE.test(node.innerHTML)) {
-						data.action = "新添加的内联脚本不合法";
-						data.value = node.innerHTML;
-						callback(data);
+						callback("新添加的内联脚本不合法", node.innerHTML, location.href, navigator.userAgent);
 						//不合法就移除了
 						node.parentNode.removeChild(node);
 					}	
@@ -120,18 +109,9 @@ var xss = function (callback) {
 			"call": { value: Function.prototype.call, writable: false, configurable: false, enumerable: true }
 		});
 		
-		//设置元素属性时会触发
-		var nativeFn3 = Element.prototype.__defineSetter__;
-		Element.prototype.__defineSetter__ = function() {
-			data.action = "__defineSetter__";
-			data.value = arguments;
-			callback(data);
-			nativeFn3.apply(this, arguments);
-		};
-		
 		//重置返回单个元素的方法
-		for (var i = data.elementFunName.length - 1; i >= 0; i--) {
-			hookNativeElement(data.elementFunName[i]);
+		for (var i = elementFunName.length - 1; i >= 0; i--) {
+			hookNativeElement(elementFunName[i]);
 		}
 		function hookNativeElement(methodName) {
 			var nativeCode = "_" + methodName;
@@ -147,8 +127,8 @@ var xss = function (callback) {
 		};
 		
 		//重置返回多个元素的方法
-		for (var i = data.elementsFunName.length - 1; i >= 0; i--) {
-			hookNativeElements(data.elementsFunName[i]);
+		for (var i = elementsFunName.length - 1; i >= 0; i--) {
+			hookNativeElements(elementsFunName[i]);
 		}
 		function hookNativeElements(methodName) {
 			var nativeCode = "_" + methodName;
@@ -168,26 +148,32 @@ var xss = function (callback) {
 		//设置src属性时触发
 		function defineSetter(element, methodName) {
 			element.__defineSetter__("src", function(value) {
-				data.action = methodName;
-				data.value = value;
-				callback(data);
+				callback(methodName, "src", value, location.href, navigator.userAgent);
 			});
 		};
 
+		//勾住setAttribute
 		var nativeFn2 = Element.prototype.setAttribute;
 		Element.prototype.setAttribute = function(name, value) {
 			if(this.tagName == "SCRIPT" && /^src$/i.test(name)) {
 				if(setAttributeRE.test(value)) {
-					data.action = "使用setAttribute设置script的src";
-					data.value = value;
-					callback(data);
-					//if(confirm("检测到可疑代码，是否拦截")) {
-						//return;
-					//}
+					callback("setAttribute", name, value, location.href, navigator.userAgent);
 				}
 			}
 			nativeFn2.apply(this, arguments);
 		};
+
+		//勾住innerHTML
+		// var nativeFn3 = Element.prototype.innerHTML;
+		// Element.prototype.innerHTML = function(name, value) {
+		// 	console.log(arguments)
+		// 	if(this.tagName == "SCRIPT" && /^src$/i.test(name)) {
+		// 		if(setAttributeRE.test(value)) {
+		// 			callback("setAttribute", name, value, location.href, navigator.userAgent);
+		// 		}
+		// 	}
+		// 	nativeFn3.apply(this, arguments);
+		// };
 		
 		//检测能执行字符串的函数，主要这几个 eval setTimeout setInterval
 		//eval改了会出问题，eval并不是真正意义的函数
@@ -199,9 +185,7 @@ var xss = function (callback) {
 			var nativeCode = "_" + methodName;
 			nativeCode = window[methodName];
 			window[methodName] = function() {
-				data.action = methodName;
-				data.value = arguments;
-				callback(data);
+				callback(methodName, arguments, location.href, navigator.userAgent);
 				return nativeCode.apply(this, arguments);
 			};
 		}
